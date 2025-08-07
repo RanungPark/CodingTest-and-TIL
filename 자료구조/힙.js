@@ -4,19 +4,19 @@ class MinHeap {
   }
 
   size() {
-    return this.heap.length;
+    return this.heap.length - 1;
   }
 
   getParentIndex(i) {
-    return Math.floor((i - 1) / 2);
+    return Math.floor(i / 2);
   }
 
   getLeftInedx(i) {
-    return 2 * i + 1;
+    return 2 * i;
   }
 
   getRightInedx(i) {
-    return 2 * i + 2;
+    return 2 * i + 1;
   }
 
   swap(i, j) {
@@ -24,7 +24,7 @@ class MinHeap {
   }
 
   peek() {
-    return this.heap[0];
+    return this.heap[1];
   }
 
   insert(value) {
@@ -33,10 +33,10 @@ class MinHeap {
   }
 
   heapifyUp() {
-    let index = this.size() - 1;
+    let index = this.size();
     let parentIndex = this.getParentIndex(index);
 
-    while (index > 0 && this.heap[parentIndex] > this.heap[index]) {
+    while (index > 1 && this.heap[parentIndex] > this.heap[index]) {
       this.swap(parentIndex, index);
       index = parentIndex;
       parentIndex = this.getParentIndex(index);
@@ -46,18 +46,18 @@ class MinHeap {
   remove() {
     if (this.heap.length === 1) return this.heap.pop();
     const minValue = this.peek();
-    this.heap[0] = this.heap.pop();
+    this.heap[1] = this.heap.pop();
     this.heapifyDown();
     return minValue;
   }
 
   heapifyDown() {
-    let index = 0;
-    const length = this.size();
+    let index = 1;
+    const length = this.heap.length;
 
     while (true) {
-      const leftChildIndex = this.getLeftChildIndex(index);
-      const rightChildIndex = this.getRightChildIndex(index);
+      const leftChildIndex = this.getLeftInedx(index);
+      const rightChildIndex = this.getRightInedx(index);
       const element = this.heap[index];
       let leftChild, rightChild;
       let swapIndex = null;
@@ -92,10 +92,10 @@ class MaxHeap extends MinHeap {
   }
 
   heapifyUp() {
-    let index = this.size() - 1;
+    let index = this.size();
     let parentIndex = this.getParentIndex(index);
 
-    while (index > 0 && this.heap[parentIndex] < this.heap[index]) {
+    while (index > 1 && this.heap[parentIndex] < this.heap[index]) {
       this.swap(index, parentIndex);
       index = parentIndex;
       parentIndex = this.getParentIndex(index);
@@ -103,12 +103,12 @@ class MaxHeap extends MinHeap {
   }
 
   heapifyDown() {
-    let index = 0;
-    const length = this.size();
+    let index = 1;
+    const length = this.heap.length;
 
     while (true) {
-      const leftChildIndex = this.getLeftChildIndex(index);
-      const rightChildIndex = this.getRightChildIndex(index);
+      const leftChildIndex = this.getLeftInedx(index);
+      const rightChildIndex = this.getRightInedx(index);
       const element = this.heap[index];
       let leftChild, rightChild;
       let swapIndex = null;
